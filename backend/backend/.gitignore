@@ -1,46 +1,8 @@
-<<<<<<< HEAD
-# Node modules
-node_modules/
-
-# Environment variables
-.env
-.env.*
-!.env.example
-
-=======
->>>>>>> 13d21b1 (feat: enhance security, robust Zod validation, UI polishing, and comprehensive README documentation)
 # Logs
 logs
 *.log
 npm-debug.log*
 yarn-debug.log*
-<<<<<<< HEAD
-pnpm-debug.log*
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# IDE
-.vscode/
-.idea/
-
-# Build folders
-dist/
-build/
-
-# Coverage
-coverage/
-
-# Temporary files
-tmp/
-temp/
-
-# Lock files (optional)
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
-=======
 yarn-error.log*
 lerna-debug.log*
 dist
@@ -194,4 +156,3 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
->>>>>>> 13d21b1 (feat: enhance security, robust Zod validation, UI polishing, and comprehensive README documentation)
