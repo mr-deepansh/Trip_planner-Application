@@ -1,25 +1,31 @@
 import winston from 'winston';
 
-const { combine, timestamp, printf, colorize } = winston.format;
+const { combine, timestamp, printf, colorize, json, errors } = winston.format;
 
-const customFormat = printf(({ level, message, timestamp, stack }) => {
-  return `[${timestamp}] ${level}: ${stack || message}`;
-});
+const isProduction = process.env.NODE_ENV === 'production';
+const devFormat = combine(
+  colorize({ all: true }),
+  timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+  errors({ stack: true }),
+  printf(({ level, message, timestamp, stack }) => {
+    return `[${timestamp}] ${level}: ${stack || message}`;
+  })
+);
+const prodFormat = combine(timestamp(), errors({ stack: true }), json());
 
 export const logger = winston.createLogger({
-  level: process.env.NODE_ENV === 'development' ? 'debug' : 'info',
-  format: combine(
-    colorize(),
-    timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-    winston.format.errors({ stack: true }),
-    customFormat
-  ),
+  level: isProduction ? 'info' : 'debug',
+  format: isProduction ? prodFormat : devFormat,
   transports: [
     new winston.transports.Console(),
     new winston.transports.File({
       filename: 'logs/error.log',
-      level: 'error'
+      level: 'error',
+      format: combine(timestamp(), errors({ stack: true }), json())
     }),
-    new winston.transports.File({ filename: 'logs/combined.log' })
+    new winston.transports.File({
+      filename: 'logs/combined.log',
+      format: combine(timestamp(), json())
+    })
   ]
 });

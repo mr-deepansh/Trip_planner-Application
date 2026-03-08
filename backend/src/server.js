@@ -17,23 +17,68 @@ const REQUIRED_ENV_VARS = [
 ];
 
 const missing = REQUIRED_ENV_VARS.filter((key) => !process.env[key]);
+
 if (missing.length > 0) {
   logger.error(`Missing required environment variables: ${missing.join(', ')}`);
-  logger.error(
-    'Set these in your .env file (local) or Render dashboard (production).'
-  );
   process.exit(1);
 }
-// ─────────────────────────────────────────────────────────────────────────────
 
 const PORT = process.env.PORT;
+const ENV = process.env.NODE_ENV;
+let server;
 
-connectDB()
-  .then(() => {
-    app.listen(PORT, () => {
-      logger.info(`Server is running at port : ${PORT}`);
+async function startServer() {
+  try {
+    await connectDB();
+
+    server = app.listen(PORT, () => {
+      logger.info(`Server running in [${ENV}] mode on port ${PORT}`);
     });
-  })
-  .catch((err) => {
-    logger.error(`PostgreSQL connection failed! ${err}`);
-  });
+
+    server.on('error', (err) => {
+      if (err.code === 'EADDRINUSE') {
+        logger.error(
+          `Port ${PORT} is already in use. Try another port or stop the existing process.`
+        );
+        process.exit(1);
+      }
+
+      logger.error(`Server error: ${err.message}`);
+      process.exit(1);
+    });
+  } catch (error) {
+    logger.error(`Startup failed: ${error.message}`);
+    process.exit(1);
+  }
+}
+
+process.on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown);
+
+async function shutdown(signal) {
+  logger.info(`Received ${signal || 'shutdown'} — closing server...`);
+  if (server) {
+    server.close(() => {
+      logger.info('HTTP server closed gracefully');
+      process.exit(0);
+    });
+    setTimeout(() => {
+      logger.warn('Graceful shutdown timed out — forcing exit');
+      process.exit(1);
+    }, 10_000);
+  } else {
+    process.exit(0);
+  }
+}
+
+process.on('uncaughtException', (err) => {
+  logger.error('Uncaught Exception:', err);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (err) => {
+  logger.error('Unhandled Rejection:', err);
+  process.exit(1);
+});
+
+startServer();

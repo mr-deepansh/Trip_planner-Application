@@ -1,13 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-
 import { errorHandler } from './middlewares/error.middleware.js';
 import authRouter from './routes/auth.routes.js';
 import tripRouter from './routes/trip.routes.js';
 import passport from './config/passport.js';
 import morgan from 'morgan';
 import { logger } from './utils/logger.js';
+import { sequelize } from './config/db.js';
 
 const app = express();
 
@@ -30,7 +30,6 @@ app.use(
     stream: {
       write: (message) => {
         const logParts = message.split(' ');
-        // Attempt to parse the status code. Depending on format, it should be the 3rd item
         const status = parseInt(logParts[2], 10);
         if (status >= 500) {
           logger.error(message.trim());
@@ -45,8 +44,33 @@ app.use(
 );
 
 // Routes
-app.get('/api/v1/health', (req, res) => {
-  res.status(200).json({ status: 'success', message: 'API is running' });
+app.get('/api/v1/health', async (req, res) => {
+  try {
+    const dbStatus = await sequelize
+      .authenticate()
+      .then(() => 'UP')
+      .catch(() => 'DOWN');
+    const memory = process.memoryUsage();
+    res.status(200).json({
+      status: 'UP',
+      service: 'Trip Planner API',
+      uptime: process.uptime(),
+      timestamp: new Date(),
+      checks: {
+        database: dbStatus,
+        memory: {
+          heapUsed: `${Math.round(memory.heapUsed / 1024 / 1024)} MB`,
+          heapTotal: `${Math.round(memory.heapTotal / 1024 / 1024)} MB`
+        },
+        node: process.version
+      }
+    });
+  } catch (error) {
+    res.status(503).json({
+      status: 'DOWN',
+      error: error.message
+    });
+  }
 });
 
 // Use Routes

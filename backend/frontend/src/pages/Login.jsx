@@ -1,21 +1,21 @@
-import React, { useState, useContext, useEffect } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { useNavigate, Link, Navigate, useLocation } from "react-router-dom";
+import React, { useState, useContext, useEffect } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import { useNavigate, Link, Navigate, useLocation } from 'react-router-dom';
 
 const Login = () => {
   const { login, user } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
-    const urlError = queryParams.get("error");
-    if (urlError === "OAuthFailed") {
+    const urlError = queryParams.get('error');
+    if (urlError === 'OAuthFailed') {
       // eslint-disable-next-line
-      setError("Authentication via OAuth provider failed. Please try again.");
+      setError('Authentication via OAuth provider failed. Please try again.');
     }
   }, [location.search]);
 
@@ -25,9 +25,9 @@ const Login = () => {
     e.preventDefault();
     try {
       await login(email, password);
-      navigate("/");
+      navigate('/');
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed");
+      setError(err.response?.data?.message || 'Login failed');
     }
   };
 
@@ -121,7 +121,7 @@ const Login = () => {
         </div>
 
         <div className="text-center text-sm text-gray-600 mt-6">
-          Don't have an account?{" "}
+          Don't have an account?{' '}
           <Link
             to="/register"
             className="text-primary-600 hover:text-primary-500 font-medium"

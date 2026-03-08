@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from "react";
-import api from "../api/axiosConfig";
-import { format } from "date-fns";
-import { Link } from "react-router-dom";
-import { Calendar, Plus } from "lucide-react";
+import React, { useEffect, useState } from 'react';
+import api from '../api/axiosConfig';
+import { format } from 'date-fns';
+import { Link } from 'react-router-dom';
+import { Calendar, Plus } from 'lucide-react';
 
 const Dashboard = () => {
   const [trips, setTrips] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
   // New Trip Form
-  const [title, setTitle] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [title, setTitle] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   const fetchTrips = async () => {
     try {
-      const res = await api.get("/trips");
+      const res = await api.get('/trips');
       setTrips(res.data.data);
     } catch (_error) {
-      console.error("Failed to fetch trips");
+      console.error('Failed to fetch trips');
     }
   };
 
@@ -29,18 +29,18 @@ const Dashboard = () => {
   const handleCreateTrip = async (e) => {
     e.preventDefault();
     try {
-      await api.post("/trips", {
+      await api.post('/trips', {
         title,
         start_date: startDate,
-        end_date: endDate,
+        end_date: endDate
       });
       setShowModal(false);
       fetchTrips();
-      setTitle("");
-      setStartDate("");
-      setEndDate("");
+      setTitle('');
+      setStartDate('');
+      setEndDate('');
     } catch (_error) {
-      alert("Failed to create trip");
+      alert('Failed to create trip');
     }
   };
 
@@ -81,12 +81,12 @@ const Dashboard = () => {
               <div className="flex items-center gap-2 text-sm text-gray-500">
                 <Calendar className="w-4 h-4" />
                 <span>
-                  {format(new Date(trip.start_date), "MMM d, yyyy")} -{" "}
-                  {format(new Date(trip.end_date), "MMM d, yyyy")}
+                  {format(new Date(trip.start_date), 'MMM d, yyyy')} -{' '}
+                  {format(new Date(trip.end_date), 'MMM d, yyyy')}
                 </span>
               </div>
               <div className="mt-4 inline-block bg-primary-100 text-primary-700 text-xs font-semibold px-2.5 py-0.5 rounded">
-                Role: {trip.TripMember?.role || "VIEWER"}
+                Role: {trip.TripMember?.role || 'VIEWER'}
               </div>
             </Link>
           ))}

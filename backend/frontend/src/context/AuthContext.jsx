@@ -1,5 +1,5 @@
-import React, { createContext, useState, useEffect } from "react";
-import api from "../api/axiosConfig";
+import React, { createContext, useState, useEffect } from 'react';
+import api from '../api/axiosConfig';
 
 export const AuthContext = createContext();
 
@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await api.get("/auth/me");
+        const res = await api.get('/auth/me');
         if (res.data.success) {
           setUser(res.data.data);
         }
@@ -25,22 +25,22 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const res = await api.post("/auth/login", { email, password });
+    const res = await api.post('/auth/login', { email, password });
     setUser(res.data.data.user);
     return res;
   };
 
   const register = async (name, email, password) => {
-    return await api.post("/auth/register", { name, email, password });
+    return await api.post('/auth/register', { name, email, password });
   };
 
   const logout = async () => {
-    await api.post("/auth/logout");
+    await api.post('/auth/logout');
     setUser(null);
   };
 
   const forgotPassword = async (email) => {
-    return await api.post("/auth/forgot-password", { email });
+    return await api.post('/auth/forgot-password', { email });
   };
 
   const resetPassword = async (token, password) => {
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
         logout,
         forgotPassword,
         resetPassword,
-        loading,
+        loading
       }}
     >
       {children}

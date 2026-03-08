@@ -1,28 +1,29 @@
-import React, { useState, useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { Link } from "react-router-dom";
-import { Mail, ArrowLeft, Loader2, KeyRound } from "lucide-react";
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
+import { Mail, ArrowLeft, Loader2, KeyRound } from 'lucide-react';
 
 const ForgotPassword = () => {
   const { forgotPassword } = useContext(AuthContext);
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setMessage("");
+    setError('');
+    setMessage('');
     setLoading(true);
     try {
       await forgotPassword(email);
       setMessage(
-        "A secure password reset link has been sent to your email inbox.",
+        'A secure password reset link has been sent to your email inbox.'
       );
     } catch (err) {
       setError(
-        err.response?.data?.message || "An unexpected error occurred. Please try again.",
+        err.response?.data?.message ||
+          'An unexpected error occurred. Please try again.'
       );
     } finally {
       setLoading(false);
@@ -44,7 +45,8 @@ const ForgotPassword = () => {
             Reset Password
           </h2>
           <p className="mt-3 text-center text-sm text-gray-500 max-w-xs leading-relaxed">
-            Enter your email address and we will send you a secure link to recover your account.
+            Enter your email address and we will send you a secure link to
+            recover your account.
           </p>
         </div>
 
@@ -91,8 +93,8 @@ const ForgotPassword = () => {
               disabled={loading}
               className={`group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200 ${
                 loading
-                  ? "bg-primary-400 cursor-not-allowed shadow-none"
-                  : "bg-primary-600 hover:bg-primary-700 hover:shadow-lg hover:-translate-y-0.5"
+                  ? 'bg-primary-400 cursor-not-allowed shadow-none'
+                  : 'bg-primary-600 hover:bg-primary-700 hover:shadow-lg hover:-translate-y-0.5'
               }`}
             >
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
@@ -100,7 +102,7 @@ const ForgotPassword = () => {
                   <Loader2 className="h-5 w-5 text-primary-200 animate-spin" />
                 )}
               </span>
-              {loading ? "Transmitting..." : "Send Reset Link"}
+              {loading ? 'Transmitting...' : 'Send Reset Link'}
             </button>
           </div>
         </form>

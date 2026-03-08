@@ -1,41 +1,41 @@
-import React, { useState, useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { useNavigate, useParams } from "react-router-dom";
-import { Lock, Loader2, KeyRound, ShieldCheck } from "lucide-react";
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Lock, Loader2, KeyRound, ShieldCheck } from 'lucide-react';
 
 const ResetPassword = () => {
   const { resetPassword } = useContext(AuthContext);
   const navigate = useNavigate();
   const { token } = useParams();
 
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setMessage("");
+    setError('');
+    setMessage('');
 
     if (password !== confirmPassword) {
-      return setError("Passwords do not match");
+      return setError('Passwords do not match');
     }
 
     if (password.length < 8) {
-      return setError("Password must be at least 8 characters");
+      return setError('Password must be at least 8 characters');
     }
 
     setLoading(true);
     try {
       await resetPassword(token, password);
-      setMessage("Password restored successfully. Redirecting to dashboard...");
-      setTimeout(() => navigate("/"), 2000);
+      setMessage('Password restored successfully. Redirecting to dashboard...');
+      setTimeout(() => navigate('/'), 2000);
     } catch (err) {
       setError(
         err.response?.data?.message ||
-          "An unexpected error occurred. Please try again later.",
+          'An unexpected error occurred. Please try again later.'
       );
     } finally {
       setLoading(false);
@@ -132,8 +132,8 @@ const ResetPassword = () => {
               disabled={loading}
               className={`group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200 ${
                 loading
-                  ? "bg-primary-400 cursor-not-allowed shadow-none"
-                  : "bg-primary-600 hover:bg-primary-700 hover:shadow-lg hover:-translate-y-0.5"
+                  ? 'bg-primary-400 cursor-not-allowed shadow-none'
+                  : 'bg-primary-600 hover:bg-primary-700 hover:shadow-lg hover:-translate-y-0.5'
               }`}
             >
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
@@ -141,7 +141,7 @@ const ResetPassword = () => {
                   <Loader2 className="h-5 w-5 text-primary-200 animate-spin" />
                 )}
               </span>
-              {loading ? "Updating Security..." : "Secure My Account"}
+              {loading ? 'Updating Security...' : 'Secure My Account'}
             </button>
           </div>
         </form>

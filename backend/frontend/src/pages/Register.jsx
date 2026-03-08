@@ -1,14 +1,14 @@
-import { useState, useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { useNavigate, Link, Navigate } from "react-router-dom";
+import { useState, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import { useNavigate, Link, Navigate } from 'react-router-dom';
 
 const Register = () => {
   const { register, user } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   if (user) return <Navigate to="/" replace />;
 
@@ -16,9 +16,9 @@ const Register = () => {
     e.preventDefault();
     try {
       await register(name, email, password);
-      navigate("/login");
+      navigate('/login');
     } catch (err) {
-      setError(err.response?.data?.message || "Registration failed");
+      setError(err.response?.data?.message || 'Registration failed');
     }
   };
 
@@ -111,7 +111,7 @@ const Register = () => {
         </div>
 
         <div className="text-center text-sm text-gray-600 mt-6">
-          Already have an account?{" "}
+          Already have an account?{' '}
           <Link
             to="/login"
             className="text-primary-600 hover:text-primary-500 font-medium"

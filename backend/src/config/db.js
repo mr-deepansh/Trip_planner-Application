@@ -1,14 +1,21 @@
 import { Sequelize } from 'sequelize';
 import { logger } from '../utils/logger.js';
 
+const isProduction =
+  process.env.NODE_ENV === 'production' &&
+  !process.env.DATABASE_URL.includes('localhost');
+
 export const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false
-    }
-  },
+
+  dialectOptions: isProduction
+    ? {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false
+        }
+      }
+    : {},
   benchmark: true,
   logging: (msg, timing) => {
     const isSyncQuery =
@@ -22,37 +29,47 @@ export const sequelize = new Sequelize(process.env.DATABASE_URL, {
       msg.includes('pg_attribute') ||
       msg.includes('pg_index');
 
-    if (isSyncQuery) {
-      return;
-    }
+    if (isSyncQuery) return;
 
     if (timing && timing > 100) {
-      logger.warn(`[SLOW QUERY] Execution time: ${timing}ms - ${msg}`);
-    } else if (process.env.NODE_ENV === 'development') {
-      logger.debug(`[QUERY] ${msg} - ${timing}ms`);
+      logger.warn(`[SLOW QUERY] ${timing}ms — ${msg}`);
+    } else if (!isProduction) {
+      logger.debug(`[QUERY] ${timing}ms — ${msg}`);
     }
   },
+
   pool: {
-    max: 25,
-    min: 2,
+    max: isProduction ? 25 : 5,
+    min: isProduction ? 2 : 0,
     acquire: 30000,
     idle: 10000
   }
 });
 
-export const connectDB = async () => {
+export const connectDB = async (retries = 5) => {
   try {
     await sequelize.authenticate();
-    logger.info('PostgreSQL Database Connected Successfully');
-    if (
-      process.env.NODE_ENV === 'development' &&
-      process.env.ENABLE_SYNC === 'true'
-    ) {
-      logger.info('Running database sync in development mode...');
-      await sequelize.sync({ alter: true });
+
+    logger.info(
+      `PostgreSQL connected [${
+        process.env.NODE_ENV || 'development'
+      }] — pool max: ${isProduction ? 25 : 5}`
+    );
+
+    if (!isProduction && process.env.ENABLE_SYNC === 'true') {
+      logger.info('Running database sync...');
+      await sequelize.sync();
+      logger.info('Database sync complete');
     }
   } catch (error) {
-    logger.error(`Unable to connect to the database: ${error.message}`);
-    process.exit(1);
+    logger.error(`DB connection failed: ${error.message}`);
+
+    if (retries > 0) {
+      logger.warn(`Retrying DB connection... (${retries} attempts left)`);
+      setTimeout(() => connectDB(retries - 1), 5000);
+    } else {
+      logger.error('All DB connection attempts failed');
+      process.exit(1);
+    }
   }
 };

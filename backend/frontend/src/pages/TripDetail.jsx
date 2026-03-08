@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import api from "../api/axiosConfig";
-import { format, parseISO } from "date-fns";
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import api from '../api/axiosConfig';
+import { format, parseISO } from 'date-fns';
 import {
   ArrowLeft,
   Plus,
@@ -10,8 +10,8 @@ import {
   Coffee,
   Bed,
   Plane,
-  UserPlus,
-} from "lucide-react";
+  UserPlus
+} from 'lucide-react';
 
 const TripDetail = () => {
   const { tripId } = useParams();
@@ -19,22 +19,22 @@ const TripDetail = () => {
 
   const [trip, setTrip] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const [showActivityModal, setShowActivityModal] = useState(false);
-  const [selectedDayId, setSelectedDayId] = useState("");
+  const [selectedDayId, setSelectedDayId] = useState('');
   const [activityForm, setActivityForm] = useState({
-    title: "",
-    description: "",
-    start_time: "",
-    end_time: "",
-    type: "OTHER",
+    title: '',
+    description: '',
+    start_time: '',
+    end_time: '',
+    type: 'OTHER'
   });
 
   // Collaborate state
   const [showMemberModal, setShowMemberModal] = useState(false);
-  const [memberEmail, setMemberEmail] = useState("");
-  const [memberRole, setMemberRole] = useState("VIEWER");
+  const [memberEmail, setMemberEmail] = useState('');
+  const [memberRole, setMemberRole] = useState('VIEWER');
 
   useEffect(() => {
     const loadTrip = async () => {
@@ -42,9 +42,9 @@ const TripDetail = () => {
         setLoading(true);
         const res = await api.get(`/trips/${tripId}`);
         setTrip(res.data.data);
-        setError("");
+        setError('');
       } catch (err) {
-        setError(err.response?.data?.message || "Failed to load trip");
+        setError(err.response?.data?.message || 'Failed to load trip');
       } finally {
         setLoading(false);
       }
@@ -56,9 +56,9 @@ const TripDetail = () => {
     try {
       const res = await api.get(`/trips/${tripId}`);
       setTrip(res.data.data);
-      setError("");
+      setError('');
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to load trip");
+      setError(err.response?.data?.message || 'Failed to load trip');
     }
   };
 
@@ -67,19 +67,19 @@ const TripDetail = () => {
     try {
       await api.post(`/trips/${tripId}/activities`, {
         dayId: selectedDayId,
-        ...activityForm,
+        ...activityForm
       });
       setShowActivityModal(false);
       setActivityForm({
-        title: "",
-        description: "",
-        start_time: "",
-        end_time: "",
-        type: "OTHER",
+        title: '',
+        description: '',
+        start_time: '',
+        end_time: '',
+        type: 'OTHER'
       });
       fetchTripDetails();
     } catch (err) {
-      alert(err.response?.data?.message || "Failed to add activity");
+      alert(err.response?.data?.message || 'Failed to add activity');
     }
   };
 
@@ -88,37 +88,37 @@ const TripDetail = () => {
     try {
       await api.post(`/trips/${tripId}/members`, {
         email: memberEmail,
-        role: memberRole,
+        role: memberRole
       });
-      alert("Member added successfully!");
+      alert('Member added successfully!');
       setShowMemberModal(false);
-      setMemberEmail("");
-      setMemberRole("VIEWER");
+      setMemberEmail('');
+      setMemberRole('VIEWER');
     } catch (err) {
-      alert(err.response?.data?.message || "Failed to add member");
+      alert(err.response?.data?.message || 'Failed to add member');
     }
   };
 
   const handleDeleteActivity = async (activityId) => {
-    if (!window.confirm("Are you sure you want to delete this activity?"))
+    if (!window.confirm('Are you sure you want to delete this activity?'))
       return;
     try {
       await api.delete(`/trips/${tripId}/activities/${activityId}`);
       fetchTripDetails();
     } catch {
-      alert("Failed to delete activity");
+      alert('Failed to delete activity');
     }
   };
 
   const getActivityIcon = (type) => {
     switch (type) {
-      case "FLIGHT":
+      case 'FLIGHT':
         return <Plane className="w-5 h-5 text-blue-500" />;
-      case "HOTEL":
+      case 'HOTEL':
         return <Bed className="w-5 h-5 text-indigo-500" />;
-      case "FOOD":
+      case 'FOOD':
         return <Coffee className="w-5 h-5 text-orange-500" />;
-      case "SIGHTSEEING":
+      case 'SIGHTSEEING':
         return <MapPin className="w-5 h-5 text-green-500" />;
       default:
         return <Clock className="w-5 h-5 text-gray-400" />;
@@ -133,7 +133,7 @@ const TripDetail = () => {
   return (
     <div className="max-w-5xl mx-auto pb-20">
       <button
-        onClick={() => navigate("/")}
+        onClick={() => navigate('/')}
         className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 mb-6 transition"
       >
         <ArrowLeft className="w-4 h-4" /> Back to Dashboard
@@ -145,8 +145,8 @@ const TripDetail = () => {
             {trip.title}
           </h1>
           <p className="text-lg text-gray-500">
-            {format(parseISO(trip.start_date), "MMMM d, yyyy")} —{" "}
-            {format(parseISO(trip.end_date), "MMMM d, yyyy")}
+            {format(parseISO(trip.start_date), 'MMMM d, yyyy')} —{' '}
+            {format(parseISO(trip.end_date), 'MMMM d, yyyy')}
           </p>
         </div>
         <div>
@@ -172,7 +172,7 @@ const TripDetail = () => {
                   Day {index + 1}
                 </h3>
                 <p className="text-sm text-gray-500">
-                  {format(parseISO(day.date), "EEEE, MMMM d, yyyy")}
+                  {format(parseISO(day.date), 'EEEE, MMMM d, yyyy')}
                 </p>
               </div>
               <button
@@ -223,7 +223,7 @@ const TripDetail = () => {
                             {activity.start_time && (
                               <span className="flex items-center gap-1">
                                 <Clock className="w-3 h-3" />
-                                {activity.start_time}{" "}
+                                {activity.start_time}{' '}
                                 {activity.end_time && `- ${activity.end_time}`}
                               </span>
                             )}
@@ -263,7 +263,7 @@ const TripDetail = () => {
                     onChange={(e) =>
                       setActivityForm({
                         ...activityForm,
-                        title: e.target.value,
+                        title: e.target.value
                       })
                     }
                     className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-primary-500 focus:border-primary-500"
@@ -281,7 +281,7 @@ const TripDetail = () => {
                       onChange={(e) =>
                         setActivityForm({
                           ...activityForm,
-                          start_time: e.target.value,
+                          start_time: e.target.value
                         })
                       }
                       className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-primary-500 focus:border-primary-500"
@@ -297,7 +297,7 @@ const TripDetail = () => {
                       onChange={(e) =>
                         setActivityForm({
                           ...activityForm,
-                          end_time: e.target.value,
+                          end_time: e.target.value
                         })
                       }
                       className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-primary-500 focus:border-primary-500"
@@ -331,7 +331,7 @@ const TripDetail = () => {
                     onChange={(e) =>
                       setActivityForm({
                         ...activityForm,
-                        description: e.target.value,
+                        description: e.target.value
                       })
                     }
                     className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-primary-500 focus:border-primary-500"
