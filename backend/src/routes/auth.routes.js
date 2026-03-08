@@ -10,6 +10,7 @@ import { verifyJWT } from '../middlewares/auth.middleware.js';
 import passport from 'passport';
 
 const router = Router();
+const FRONTEND_URL = process.env.CORS_ORIGIN;
 
 router.route('/register').post(registerUser);
 router.route('/login').post(loginUser);
@@ -27,7 +28,7 @@ router.get(
   '/google/callback',
   passport.authenticate('google', {
     session: false,
-    failureRedirect: `${process.env.CORS_ORIGIN}/login`
+    failureRedirect: `${FRONTEND_URL}/login`
   }),
   handleOAuthLogin
 );
@@ -40,7 +41,7 @@ router.get(
   '/github/callback',
   passport.authenticate('github', {
     session: false,
-    failureRedirect: `${process.env.CORS_ORIGIN}/login`
+    failureRedirect: `${FRONTEND_URL}/login`
   }),
   handleOAuthLogin
 );

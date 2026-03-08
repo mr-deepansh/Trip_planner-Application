@@ -7,18 +7,19 @@ import { invalidateCachedUser } from '../utils/userCache.js';
 import crypto from 'crypto';
 import { passwordSchema } from '../validations/auth.validation.js';
 
+const FRONTEND_URL = process.env.CORS_ORIGIN;
+
 export const handleOAuthLogin = asyncHandler((req, res) => {
   if (!req.user) {
-    return res.redirect(`${process.env.CORS_ORIGIN}/login?error=OAuthFailed`);
+    return res.redirect(`${FRONTEND_URL}/login?error=OAuthFailed`);
   }
-  // req.user is already the Sequelize User instance from passport — no extra DB hit
   const accessToken = req.user.generateAccessToken();
   const options = {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production'
   };
   res.cookie('accessToken', accessToken, options);
-  res.redirect(`${process.env.CORS_ORIGIN}/`);
+  res.redirect(`${FRONTEND_URL}/`);
 });
 
 export const registerUser = asyncHandler(async (req, res) => {
@@ -68,9 +69,7 @@ export const loginUser = asyncHandler(async (req, res) => {
   if (!isPasswordValid) {
     throw new ApiError(401, 'Invalid user credentials');
   }
-  // Generate token from the already-loaded user — skip redundant findByPk
   const accessToken = user.generateAccessToken();
-  // Return user without password (destructure to avoid sending sensitive fields)
   const {
     password: _pwd,
     passwordResetToken: _prt,
