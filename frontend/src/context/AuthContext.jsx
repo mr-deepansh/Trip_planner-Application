@@ -1,20 +1,26 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "./authContext.js";
 import api from "../api/axiosConfig";
-
-export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const hasFetched = useRef(false); // prevents StrictMode double-invoke
 
   useEffect(() => {
+    // Guard: React StrictMode runs effects twice in dev — only fetch once
+    if (hasFetched.current) return;
+    hasFetched.current = true;
+
     const checkAuth = async () => {
       try {
         const res = await api.get("/auth/me");
         if (res.data.success) {
           setUser(res.data.data);
         }
-      } catch (error) {
+      } catch {
         setUser(null);
       } finally {
         setLoading(false);
@@ -35,8 +41,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    await api.post("/auth/logout");
-    setUser(null);
+    try {
+      await api.post("/auth/logout");
+    } catch {
+      // Even if the server call fails, clear local state and redirect
+    } finally {
+      setUser(null);
+      navigate("/login", { replace: true });
+    }
   };
 
   const forgotPassword = async (email) => {
