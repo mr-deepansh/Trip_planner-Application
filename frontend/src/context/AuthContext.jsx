@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "./authContext.js";
 import api from "../api/axiosConfig";
 
+// Re-export so consumers can import AuthContext from either file
+export { AuthContext };
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
