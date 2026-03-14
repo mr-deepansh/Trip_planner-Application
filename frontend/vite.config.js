@@ -7,22 +7,6 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
-    {
-      name: "spa-fallback",
-      generateBundle(options, bundle) {
-        const indexHtml = bundle["index.html"];
-        if (indexHtml) {
-          const routes = ["login", "register", "forgot-password", "reset-password"];
-          routes.forEach((route) => {
-            this.emitFile({
-              type: "asset",
-              fileName: `${route}.html`,
-              source: indexHtml.source,
-            });
-          });
-        }
-      },
-    },
   ],
 
   server: {
@@ -33,7 +17,11 @@ export default defineConfig({
   preview: {
     host: "0.0.0.0",
     port: Number(process.env.PORT) || 5173,
-    allowedHosts: ["trip-planner-collaboration.onrender.com", "localhost"],
+    allowedHosts: [
+      "trip-planner-collaboration.onrender.com",
+      "trip-planner-application-client.onrender.com",
+      "localhost",
+    ],
   },
 
   build: {
