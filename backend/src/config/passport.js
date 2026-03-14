@@ -19,14 +19,12 @@ passport.use(
       logger.debug(
         `[Google OAuth] Emails from profile: ${JSON.stringify(profile.emails)}`
       );
-
       try {
         // Step 1: look up by google_id
         logger.debug(
           `[Google OAuth] Looking up user by google_id=${profile.id}`
         );
         let user = await User.findOne({ where: { google_id: profile.id } });
-
         if (user) {
           logger.debug(
             `[Google OAuth] Existing user found by google_id — id=${user.id}, email=${user.email}`
@@ -35,7 +33,6 @@ passport.use(
           logger.debug(
             '[Google OAuth] No user found by google_id — checking by email'
           );
-
           const email =
             profile.emails && profile.emails.length > 0
               ? profile.emails[0].value
@@ -44,11 +41,9 @@ passport.use(
           logger.debug(
             `[Google OAuth] Resolved email: ${email || 'none (will use fallback)'}`
           );
-
           if (email) {
             user = await User.findOne({ where: { email } });
           }
-
           if (user) {
             // Step 2a: existing email-based account — link it to Google
             logger.debug(
@@ -77,7 +72,6 @@ passport.use(
             );
           }
         }
-
         logger.debug(`[Google OAuth] done() called with user id=${user.id}`);
         return done(null, user);
       } catch (error) {
@@ -105,14 +99,12 @@ passport.use(
       logger.debug(
         `[GitHub OAuth] Emails from profile: ${JSON.stringify(profile.emails)}`
       );
-
       try {
         // Step 1: look up by github_id
         logger.debug(
           `[GitHub OAuth] Looking up user by github_id=${profile.id}`
         );
         let user = await User.findOne({ where: { github_id: profile.id } });
-
         if (user) {
           logger.debug(
             `[GitHub OAuth] Existing user found by github_id — id=${user.id}, email=${user.email}`
@@ -121,20 +113,16 @@ passport.use(
           logger.debug(
             '[GitHub OAuth] No user found by github_id — checking by email'
           );
-
           let email = null;
           if (profile.emails && profile.emails.length > 0) {
             email = profile.emails[0].value;
           }
-
           logger.debug(
             `[GitHub OAuth] Resolved email: ${email || 'none (will use fallback)'}`
           );
-
           if (email) {
             user = await User.findOne({ where: { email } });
           }
-
           if (user) {
             // Step 2a: existing email-based account — link it to GitHub
             logger.debug(
@@ -164,7 +152,6 @@ passport.use(
             );
           }
         }
-
         logger.debug(`[GitHub OAuth] done() called with user id=${user.id}`);
         return done(null, user);
       } catch (error) {
