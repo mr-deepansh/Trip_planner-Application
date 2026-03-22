@@ -280,4 +280,4 @@ Contributions are welcome. Please follow these steps:
 ## License
 
 Licensed under the [MIT License](./LICENSE).  
-© 2025 [Deepansh](https://github.com/mr-deepansh)
+© 2026 [Deepansh](https://github.com/mr-deepansh)
