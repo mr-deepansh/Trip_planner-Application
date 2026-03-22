@@ -1,169 +1,283 @@
 <div align="center">
 
-# 🌍 Collaborative Trip Planning Platform
+<img src="https://raw.githubusercontent.com/mr-deepansh/Trip_planner-collaboration/main/frontend/public/logo.png" alt="Trip Planner Logo" width="80" height="80" />
 
-![React](https://img.shields.io/badge/React-19-61DAFB.svg?logo=react&logoColor=black)
-![Vite](https://img.shields.io/badge/Vite-7-646CFF.svg?logo=vite&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38B2AC.svg?logo=tailwind-css&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-20+-brightgreen.svg?logo=node.js&logoColor=white)
-![Express](https://img.shields.io/badge/Express-5+-purple.svg?logo=express&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow.svg?logo=javascript&logoColor=black)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791.svg?logo=postgresql&logoColor=white)
-![Sequelize](https://img.shields.io/badge/Sequelize-6-52B0E7.svg?logo=sequelize&logoColor=white)
-![JWT](https://img.shields.io/badge/JWT-Authentication-black.svg?logo=jsonwebtokens&logoColor=white)
-![Nodemailer](https://img.shields.io/badge/Nodemailer-Email-44A6D8.svg?logo=nodemailer&logoColor=white)
-![Winston](https://img.shields.io/badge/Winston-Logging-6B5A8A.svg)
-![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)
-![ESLint](https://img.shields.io/badge/Code%20Style-ESLint-4B32C3.svg?logo=eslint&logoColor=white)
-![Prettier](https://img.shields.io/badge/Formatter-Prettier-F7B93E.svg?logo=prettier&logoColor=black)
-![Husky](https://img.shields.io/badge/Husky-Git_Hooks-A60000.svg?logo=husky&logoColor=white)
-![Zod](https://img.shields.io/badge/Zod-Validation-3E67B1.svg?logo=zod&logoColor=white)
-![Security](https://img.shields.io/badge/Security-Enterprise_Grade-crimson.svg)
-![License](https://img.shields.io/badge/License-MIT-gold.svg)
+# Trip Planner — Collaboration
 
-A complete, production-ready system for collaborative itinerary planning. Users can organize trips, add daily activities, define roles and access permissions, and collaborate seamlessly in real-time.
+**A production-ready, full-stack collaborative travel planning platform.**  
+Plan smarter. Travel together.
+
+<br />
+
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev)
+[![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![Node.js](https://img.shields.io/badge/Node.js-20+-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org)
+[![Express](https://img.shields.io/badge/Express-5-000000?style=flat-square&logo=express&logoColor=white)](https://expressjs.com)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=flat-square&logo=postgresql&logoColor=white)](https://postgresql.org)
+[![Sequelize](https://img.shields.io/badge/Sequelize-6-52B0E7?style=flat-square&logo=sequelize&logoColor=white)](https://sequelize.org)
+[![Zod](https://img.shields.io/badge/Zod-Validation-3E67B1?style=flat-square)](https://zod.dev)
+[![ESLint](https://img.shields.io/badge/ESLint-9-4B32C3?style=flat-square&logo=eslint&logoColor=white)](https://eslint.org)
+[![Prettier](https://img.shields.io/badge/Prettier-3-F7B93E?style=flat-square&logo=prettier&logoColor=black)](https://prettier.io)
+[![MIT License](https://img.shields.io/badge/License-MIT-22c55e?style=flat-square)](./LICENSE)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-6366f1?style=flat-square&logo=vercel&logoColor=white)](https://trip-planner-collaboration.vercel.app)
 
 </div>
 
 ---
 
-## 🎯 Project Goal & Vision
+## Table of Contents
 
-Planning a group trip is historically painful—involving scattered spreadsheets, endless messaging threads, duplicated bookings, and budget confusion.
-
-**The Collaborative Trip Planning Platform** was engineered to solve this fragmentation. Our goal is to provide a single, centralized workspace where friends, families, and organizations can seamlessly lay out itineraries, assign logistical roles, manage daily activities, and finalize their travel plans in real time. 
-
-By prioritizing a **Clean UI**, **Role-Based Security**, and **Real-Time Data Integrity**, this platform evolves trip planning from a chore into an exciting, collaborative experience.
-
----
-
-## 👥 Target Audience & Use Cases
-
-This platform is designed to scale from simple weekend getaways to complex corporate retreats:
-
-1. **Friends & Family Vacations**: Easily track who is booking the hotel, coordinate arrival flights, and vote on daily sightseeing activities without getting lost in group chats.
-2. **Corporate Offsites & Retreats**: Event coordinators can assign "Viewer" roles to attendees so they can see the schedule, while designating "Editors" to department heads managing specific breakouts.
-3. **Backpacking & Multi-City Tours**: Utilize the **Smart Itinerary Builder** to auto-generate chronological days across different timezones, preventing logistical overlap.
-4. **Travel Agents**: Professionals can curate visually stunning, detailed itineraries and share read-only access with their clients.
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Environment Variables](#environment-variables)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [License](#license)
 
 ---
 
-## ✨ Enterprise-Grade Features
+## Overview
 
-### 🛡️ Advanced Security & Authentication
-- **OAuth 2.0 Integration**: Secure, frictionless social logins via Google & GitHub APIs.
-- **Stateless JWTs & HTTP-Only Cookies**: Ironclad session management guaranteeing protection against XSS and CSRF attacks.
-- **Role-Based Access Control (RBAC)**: Fine-grained permission system featuring modular `Owner`, `Editor`, and `Viewer` hierarchies to protect itinerary integrity.
-- **Strict Payload Validation**: Real-time request sanitization and schema generation powered natively by **Zod**.
-- **Cryptographic Password Recovery**: Highly secure, time-limited, single-use email token dispatch system utilizing hashed variables and Nodemailer SMTP.
+**Trip Planner Collaboration** eliminates the friction of group travel coordination. Instead of scattered spreadsheets and group chats, teams get a centralized workspace to build itineraries, manage daily activities, assign roles, and collaborate — all in one place.
 
-### 🗺️ Dynamic Trip Management & Itinerary Building
-- **Smart Itinerary Engine**: Automatically generates sequential, chronological data structures (`Day 1`, `Day 2`) based on the user's chosen start and end dates.
-- **Rich Activity Modules**: Deep entity support for classifying events via distinct cards (Flights, Hotels, Sightseeing, Food, Custom).
-- **Relational Integrity**: Modeled with deeply nested SQL bounds (PostgreSQL/Sequelize) to safely cascade deletions (e.g., deleting a Trip automatically purges its Days and Activities).
-- **Collaborative Workspace**: Add members via email lookup, seamlessly elevating their access tier within the trip dashboard.
+Built with a clean separation of concerns: a **React + Vite** frontend, a **Node.js + Express** REST API, and a **PostgreSQL** relational database managed through **Sequelize ORM**.
 
-### ⚙️ Core Architecture Decisions
-- **Decoupled Monolith**: Controllers, Middlewares, Utilities, and Routes are cleanly isolated, paving the way for infinite horizontal scalability or future microservice separation.
-- **Global Error Handling Pipeline**: Centralized exception interception preventing Node.js loop failures. Automatically sanitizes raw database errors before relaying user-friendly messages to the client.
-- **ES6 Standardized**: Transitioned from legacy CommonJS to modern standard `import/export` syntax across the entire backend ecosystem.
+> **Live →** [trip-planner-collaboration.vercel.app](https://trip-planner-collaboration.vercel.app)
 
 ---
 
-## 📁 Monorepo Structure
+## Architecture
+```
+┌─────────────────────────────────────┐
+│           Client (Vercel)           │
+│     React 19 + Vite 7 + Tailwind    │
+└────────────────┬────────────────────┘
+                 │ HTTPS / REST
+┌────────────────▼────────────────────┐
+│           API (Render)              │
+│     Node.js 20 + Express 5          │
+│     JWT Auth · Zod Validation       │
+│     Winston Logging · RBAC          │
+└────────────────┬────────────────────┘
+                 │ Sequelize ORM
+┌────────────────▼────────────────────┐
+│         Database (Render)           │
+│         PostgreSQL 16               │
+│   Trips → Days → Activities         │
+└─────────────────────────────────────┘
+```
 
-The application is cleanly segmented into dedicated environments:
-
-- **`/frontend`**: React + Vite + Tailwind CSS v4 + React Router Dom + Context API for state management + Lucide React for crisp SVG iconography.
-- **`/backend`**: Node.js + Express.js + Sequelize ORM (PostgreSQL) + Winston Logger + Zod for runtime schema validation.
+**Data model cascade:**
+```
+User
+ └── Trip (owner)
+      ├── TripMember (role: owner | editor | viewer)
+      └── Day
+           └── Activity (type: flight | hotel | food | sightseeing | custom)
+```
 
 ---
 
-## 🛠️ Rapid Setup (Local Development)
+## Features
 
-### 1. Database Initialization
-Ensure PostgreSQL is running locally on port `5432`. Create an empty database corresponding to your `.env` connection string (e.g., `trip_planner`).
+### Authentication & Security
+- Stateless JWT authentication stored in **HTTP-Only cookies** — XSS-proof by design
+- **OAuth 2.0** social login via Google & GitHub
+- **Role-Based Access Control (RBAC)** — Owner / Editor / Viewer per trip
+- Cryptographic password reset — time-limited, single-use hashed tokens via Nodemailer
+- Runtime request validation with **Zod** schemas on every endpoint
 
-### 2. Backend Boot
-Open your terminal and execute:
+### Trip & Itinerary Management
+- **Smart Itinerary Builder** — auto-generates Day 1, Day 2… from trip start/end dates
+- **Activity Cards** — typed support for Flights, Hotels, Sightseeing, Food, and Custom events
+- **Cascading deletes** — PostgreSQL foreign key constraints ensure relational integrity
+- Invite collaborators by email, upgrade/downgrade their access tier at any time
+
+### Developer Experience
+- **ESLint v9** flat config + **Prettier** with pre-commit enforcement via **Husky**
+- **Winston** structured logging with log levels per environment
+- Centralized error pipeline — raw DB errors never reach the client
+- ES Modules (`import/export`) throughout — no CommonJS
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | React 19, Vite 7, Tailwind CSS 4, React Router 6, Context API, Lucide React |
+| Backend | Node.js 20+, Express 5, Sequelize 6 |
+| Database | PostgreSQL 16 |
+| Auth | JWT (HTTP-Only Cookies), OAuth 2.0 (Google, GitHub) |
+| Validation | Zod |
+| Email | Nodemailer (SMTP) |
+| Logging | Winston |
+| Tooling | ESLint 9, Prettier 3, Husky, lint-staged |
+| Deployment | Render (API + DB), Vercel (Frontend) |
+
+---
+
+## Project Structure
+```
+Trip_planner-collaboration/
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── hooks/
+│   │   ├── pages/
+│   │   ├── services/         # Axios API layer
+│   │   └── utils/
+│   ├── .env.example
+│   └── vite.config.js
+│
+├── backend/
+│   ├── src/
+│   │   ├── config/           # DB, env
+│   │   ├── constants/        # Roles, enums
+│   │   ├── middleware/        # Auth, error, validation
+│   │   ├── modules/
+│   │   │   ├── auth/         # controller, service, schema, route
+│   │   │   ├── trips/
+│   │   │   ├── days/
+│   │   │   ├── activities/
+│   │   │   └── members/
+│   │   └── utils/            # ApiError, ApiResponse, logger
+│   ├── .env.example
+│   └── server.js
+│
+├── render.yaml
+├── .gitignore
+└── LICENSE
+```
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js `>=20.0.0`
+- PostgreSQL `>=16` running on port `5432`
+
+### 1. Clone
+```bash
+git clone https://github.com/mr-deepansh/Trip_planner-collaboration.git
+cd Trip_planner-collaboration
+```
+
+### 2. Backend
 ```bash
 cd backend
+cp .env.example .env      # fill in your values
 npm install
-# Note: Sequelize automatically synchronizes schemas on boot. No manual migrations needed!
-npm run dev
+npm run dev               # http://localhost:8000
 ```
-*The server will mount via Nodemon on `http://localhost:8000`.*
 
-### 3. Frontend Boot
-Open an adjacent terminal and execute:
+> Sequelize syncs the schema automatically on boot — no manual migrations needed.
+
+### 3. Frontend
 ```bash
 cd frontend
+cp .env.example .env      # set VITE_API_URL=http://localhost:8000
 npm install
-npm run dev
+npm run dev               # http://localhost:5173
 ```
-*The Vite engine is hot-reloaded and live at `http://localhost:5173`.*
 
 ---
 
-## 🌐 Production Deployment Flow
+## Environment Variables
 
-### 1. Provision Hosted Database
-Deploy a managed PostgreSQL instance (e.g., **Supabase**, **Neon**, **Render Postgres**). Update the backend `DATABASE_URL` environment variable.
+**`backend/.env.example`**
+```env
+NODE_ENV=development
+PORT=8000
 
-### 2. Backend (Render / Heroku)
-- Push your code to GitHub.
-- Add your secret `.env` variables (`JWT_SECRET`, `GOOGLE_CLIENT_ID`, `EMAIL_PASS`, etc.) to the hosting platform.
-- Build Command: `npm install`
-- Start Command: `npm start` (or PM2 execution if utilized).
+# Database
+DATABASE_URL=postgresql://user:password@localhost:5432/trip_planner
 
-### 3. Frontend (Vercel / Netlify)
-- Attach the GitHub repository.
-- Build Command: `npm run build`
-- Output Directory: `dist`
-- Crucial: Assign the Environment Variable `VITE_API_URL` to point strictly to your live Backend domain string.
+# Auth
+JWT_SECRET=your_jwt_secret_min_32_chars
+JWT_EXPIRES_IN=7d
+COOKIE_SECRET=your_cookie_secret
 
----
+# OAuth
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
 
-## 🤝 Contributing & Operations
+# Email
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your@email.com
+SMTP_PASS=your_app_password
 
-We welcome contributions from the community! From reporting bugs to submitting complex pull requests, your input helps shape the future of this platform.
+# Client
+CLIENT_URL=http://localhost:5173
+```
 
-### 🐛 Reporting Issues
-If you encounter a bug or have a feature request, please open an Issue on our GitHub repository: `[GitHub Repository Link Here]`
-
-When submitting an issue, please adhere to these terms:
-- Provide a clear, descriptive title.
-- Include step-by-step reproduction instructions for bugs.
-- List your environment details (Node version, OS, Browser).
-- Include terminal logs or screenshots if applicable.
-
-### 🔀 Pull Request Terms
-To ensure the integrity of the codebase, all PRs must follow these rules before merging via `git push`:
-1. **Fork & Branch:** Always work on a standalone feature branch (`git checkout -b feature/your-feature-name`).
-2. **Linting & Formatting:** Your code must pass all ESLint and Prettier rules. Run `npm run lint` and `npm run format` locally.
-3. **Commit Standards:** Use clear, conventional commit messages.
-4. **Testing:** Ensure any existing features are not broken by your changes.
-5. **Submit a PR:** Open a Pull Request against the `main` branch. Provide a detailed summary of your changes in the PR description.
-
-> **Repository URL:** [https://github.com/mr-deepansh/Trip_planner-Application](https://github.com/mr-deepansh/Trip_planner-Application) *(Update this placeholder with the final repo link if needed)*
+**`frontend/.env.example`**
+```env
+VITE_API_URL=http://localhost:8000
+```
 
 ---
 
-## ⚖️ License & Legal
+## Deployment
 
-### License
-This project is licensed under the permissive MIT License. See the complete, legally-binding `LICENSE` document located in the root directory for full terms and conditions.
+### Database — Render / Supabase / Neon
+Provision a managed PostgreSQL instance and set `DATABASE_URL` in your backend environment.
 
-### Trademarks
-All third-party names, logos, product and service names, designs, and slogans utilized within this software or documentation (e.g., Google, GitHub, PostgreSQL) are the trademarks of their respective owners. Any use of such marks by this project is for identification and demonstrative purposes only and does not imply endorsement, affiliation, or sponsorship.
+### Backend — Render
+| Setting | Value |
+|---|---|
+| Build Command | `npm install` |
+| Start Command | `npm start` |
+| Environment | Add all variables from `.env.example` |
 
-The specific "Collaborative Trip Planning Platform" architecture, name, and associated custom branding elements are the intellectual property of the authors. You may not use these custom marks in any commercial context that might cause consumer confusion or disparage the original project without explicit written consent.
-
-### Disclaimer
-This software architecture is provided "as is". While enterprise-grade security practices (like Zod validation and HTTP-Only cookies) have been implemented, the maintainers assume no legal responsibility for data loss, service interruptions, or security breaches resulting from the deployment of this codebase in a live production environment. Organizations deploying this system are legally responsible for conducting their own independent security audits, penetration testing, and GDPR/CCPA compliance checks.
+### Frontend — Vercel
+| Setting | Value |
+|---|---|
+| Build Command | `npm run build` |
+| Output Directory | `dist` |
+| Environment | `VITE_API_URL` → your Render backend URL |
 
 ---
 
-<div align="center">
-  <p>Built with Deepansh, collaborative coordination.</p>
-</div>
+## Contributing
+
+Contributions are welcome. Please follow these steps:
+
+1. Fork the repository and create a feature branch:
+```bash
+   git checkout -b feature/your-feature-name
+```
+
+2. Make your changes. Ensure code passes all checks:
+```bash
+   npm run lint
+   npm run format:check
+```
+
+3. Commit using [Conventional Commits](https://www.conventionalcommits.org):
+```bash
+   git commit -m "feat(trips): add member invitation by email"
+```
+
+4. Push and open a Pull Request against `main` with a clear description of your changes.
+
+**When reporting a bug**, please include your Node version, OS, steps to reproduce, and any relevant logs.
+
+---
+
+## License
+
+Licensed under the [MIT License](./LICENSE).  
+© 2025 [Deepansh](https://github.com/mr-deepansh)
