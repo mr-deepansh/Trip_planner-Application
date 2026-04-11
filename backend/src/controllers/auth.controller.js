@@ -56,7 +56,7 @@ export const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
   if (!name || !email || !password) {
-    throw new ApiError(400, 'All fields are required');
+    throw ApiError.badRequest('All fields are Required');
   }
   const passwordValidation = passwordSchema.safeParse(password);
   if (!passwordValidation.success) {
@@ -78,11 +78,11 @@ export const registerUser = asyncHandler(async (req, res) => {
     attributes: { exclude: ['password'] }
   });
   if (!createdUser) {
-    throw new ApiError(500, 'Something went wrong while registering the user');
+    throw ApiError.internal('User registration failed');
   }
   return res
     .status(201)
-    .json(new ApiResponse(201, createdUser, 'User registered successfully'));
+    .json(ApiResponse.created(createdUser, 'User registered successfully'));
 });
 
 export const loginUser = asyncHandler(async (req, res) => {
@@ -93,7 +93,7 @@ export const loginUser = asyncHandler(async (req, res) => {
   }
   const user = await User.findOne({ where: { email } });
   if (!user) {
-    throw new ApiError(404, 'User does not exist');
+    throw ApiError.notFound('User does not exist');
   }
   const isPasswordValid = await user.isPasswordCorrect(password);
   if (!isPasswordValid) {
