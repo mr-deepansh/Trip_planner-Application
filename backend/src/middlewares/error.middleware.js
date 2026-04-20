@@ -33,6 +33,10 @@ export const errorHandler = (err, req, res, next) => {
   logger.error('Unhandled error', {
     message: err.message,
     stack: err.stack,
+    name: err.name,
+    original: err.original?.message,
+    sql: err.sql,
+    parameters: err.parameters,
     requestId
   });
 
