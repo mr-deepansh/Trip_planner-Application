@@ -58,12 +58,13 @@ app.use(
   })
 );
 
+const API_VERSION = process.env.VERSION;
 // Routes
 app.get(`/api`, (req, res) => {
-  res.json({ message: 'Trip Planner API', version: process.env.VERSION });
+  res.json({ message: 'Trip Planner API', version: API_VERSION });
 });
 
-app.get(`/api/${process.env.VERSION}/health`, async (req, res) => {
+app.get(`/api/${API_VERSION}/health`, async (req, res) => {
   try {
     const dbStatus = await sequelize
       .authenticate()
@@ -93,8 +94,8 @@ app.get(`/api/${process.env.VERSION}/health`, async (req, res) => {
 });
 
 // Use Routes
-app.use('/api/v1/auth', authRouter);
-app.use('/api/v1/trips', tripRouter);
+app.use(`/api/${API_VERSION}/auth`, authRouter);
+app.use(`/api/${API_VERSION}/trips`, tripRouter);
 
 // Error Handling Middleware
 app.use(errorHandler);

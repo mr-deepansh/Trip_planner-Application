@@ -4,12 +4,14 @@ import { Strategy as GitHubStrategy } from 'passport-github2';
 import { User } from '../models/index.js';
 import { logger } from '../utils/logger.js';
 
+const API_VERSION = process.env.VERSION;
+
 passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: `${process.env.BACKEND_URL}/api/v1/auth/google/callback`
+      callbackURL: `${process.env.BACKEND_URL}/api/${API_VERSION}/auth/google/callback`
     },
     async (accessToken, refreshToken, profile, done) => {
       logger.debug('[Google OAuth] Strategy callback triggered');
@@ -88,7 +90,7 @@ passport.use(
     {
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      callbackURL: `${process.env.BACKEND_URL}/api/v1/auth/github/callback`,
+      callbackURL: `${process.env.BACKEND_URL}/api/${API_VERSION}/auth/github/callback`,
       scope: ['user:email']
     },
     async (accessToken, refreshToken, profile, done) => {
