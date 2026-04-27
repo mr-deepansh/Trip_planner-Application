@@ -39,7 +39,6 @@ passport.use(
             profile.emails && profile.emails.length > 0
               ? profile.emails[0].value
               : null;
-
           logger.debug(
             `[Google OAuth] Resolved email: ${email || 'none (will use fallback)'}`
           );
